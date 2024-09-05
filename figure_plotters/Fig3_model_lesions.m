@@ -1,15 +1,12 @@
 
-initialize_model_fun = "initialize_models";
-[M, block_idx, AllBlockStats] = load_fitted_Params_dist_all_dataset(groups.labels, initialize_model_fun);
+% Load data
+group_to_plot = 2:3;
+fitType = "Session"; 
+selectMod = 7;
 
-selectMod = 7;  % dynamic 1-gamma model w/ Vcho
-comparison_groups = 1:3;
-
-[AvgTraj] = compute_model_averaged_signals("SessionCombined", selectMod, groups.labels, comparison_groups, M, block_idx, AllBlockStats, 0);
-
+[OmegaV_traj] = compute_trajectory_by_reward_schedule(fitType, selectMod, group_to_plot);
 
 %% Fig. B-C
-group_to_plot = 2:3;
 
 omega_var = "EffOmegaV";    varLabel = "\Omega (effective \omega)";
 % omega_var = "omegaV";     varLabel = "\omega_V (dynamic)";
@@ -18,8 +15,6 @@ varSet.linstyle = ["-","--",":"];
 prob80_cols = {[0 0 0], [.5, 0 0], [0 0 .5]};
 prob70_cols = {ones(1,3)*.35, [1 0 0], [0 0.1 1]};
 prob60_cols = {ones(1,3)*.7, [1 .6 0], [0 .75 1]};
-
-[OmegaV_traj] = compute_trajectory_by_reward_schedule(fitType, selectMod, groups.labels, group_to_plot, M, block_idx, AllBlockStats);
 
 varSet.task = ["whatOnly","what","where"];
 varSet.tasklabel = ["WHAT-Only","WHAT","WHERE"];
@@ -58,6 +53,8 @@ end
 
 
 %% Fig. 3E-G: effective arbitration weights (psi+, psi-)
+[AvgTraj] = compute_model_averaged_signals(fitType, selectMod, 1:3);    
+
 figure(3); clf
 set(gcf,'Color','w','Units','normalized','Position',[0.0, 0.0, 0.55, 0.23]);
 
@@ -73,7 +70,7 @@ varSet.ylabel = "\psi";
 for j = 1:numel(varSet.task)
     SP = subplot(1,numel(varSet.task),j);
         
-    for g = 1:numel(comparison_groups)
+    for g = 1:3
         for k = 1:numel(varSet.name)
             MeanToPlot = AvgTraj.(groups.labels(g)).(varSet.task(j)).(varSet.name(k)).Mean;
             SEMToPlot = AvgTraj.(groups.labels(g)).(varSet.task(j)).(varSet.name(k)).sem;
@@ -81,7 +78,7 @@ for j = 1:numel(varSet.task)
                 MeanToPlot = smooth(MeanToPlot)';
                 SEMToPlot = smooth(SEMToPlot)';
             end
-            shadedErrorBar(1:size(MeanToPlot,2), MeanToPlot, SEMToPlot, 'lineProps',{'LineWidth',1.5,'Color',groups.colors{comparison_groups(g)},'linestyle',varSet.linetypes(k)});
+            shadedErrorBar(1:size(MeanToPlot,2), MeanToPlot, SEMToPlot, 'lineProps',{'LineWidth',1.5,'Color',groups.colors{g},'linestyle',varSet.linetypes(k)});
             hold on;
         end
     end
