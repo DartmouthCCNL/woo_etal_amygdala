@@ -1,23 +1,32 @@
 %% subfunc: trajectory by reward schedule
-function [AvgTraj] = compute_trajectory_by_reward_schedule(fitType, selectMod, loaded_groups, group_idx, M, block_idx, AllBlockStats)
+function [AvgTraj] = compute_trajectory_by_reward_schedule(fitType, selectMod, group_idx, M, block_idx, AllBlockStats)
     datasets = {'Costa16','WhatWhere'};
     schedules.subsets = ["prob8020","prob7030","prob6040"];
-    
-    betaFlag = "";
-    if contains(M.WhatWhere.(loaded_groups(1)){selectMod}.name,"SubjectFixedRho")
-        betaFlag = "SubjectFixedRho";
-    elseif contains(M.WhatWhere.(loaded_groups(1)){selectMod}.name,"2betaR")
-        betaFlag = "freeRho";
+    groups_labels = ["control", "amygdala", "VS"];
+    if nargin<4
+        disp("Loading output...");
+        M = struct;
+        block_idx = struct;
+        AllBlockStats = struct;
+    else
+        disp("Computing omega trajectory by reward schedule...")
     end
+    [models] = initialize_models(datasets{1}, groups_labels(group_idx), 1, 0);
     
     AvgTraj = struct;
     % loop through each group
     for g = 1:numel(group_idx)
-        group_label = loaded_groups(group_idx(g));  
+        group_label = groups_labels(group_idx(g));  
         disp(upper(group_label));
-        
-        sname = "output/model/"+fitType+"_"+group_label+"_"+M.WhatWhere.(loaded_groups(1)){selectMod}.name+".mat";
+        sname = "output/model/Omega_by_rew/"+fitType+"_"+group_label+"_"+models{selectMod}.name+".mat";
+
         if ~exist(sname,'file')  
+            betaFlag = "";
+            if contains(models{selectMod}.name,"SubjectFixedRho")
+                betaFlag = "SubjectFixedRho";
+            elseif contains(models{selectMod}.name,"2betaR")
+                betaFlag = "freeRho";
+            end
             tic
             GroupStruct = struct;
             for d = 1:numel(datasets)
@@ -69,7 +78,7 @@ function [AvgTraj] = compute_trajectory_by_reward_schedule(fitType, selectMod, l
                             switch fitType
                                 case "Block"
                                     fitpar0 = thisModel.fitpar{block_stats.absBlockNum};
-                                case "SessionCombined"
+                                case "Session"
                                     if d==1
                                         fitpar0 = thisModel.SessionFit.fitpar.(blockType){block_idx.(dataset_label).(group_label).sessionNum(block_stats.absBlockNum)};
                                     else

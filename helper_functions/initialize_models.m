@@ -1,4 +1,4 @@
-function [output, models] = initialize_models(dataset_label, group_label, load_fit_output, load_sim_output, numfitruns)
+function [models] = initialize_models(dataset_label, group_label, load_fit_output, load_sim_output, numfitruns)
     if ~exist("load_fit_output",'var')
         load_fit_output = true;
     end
@@ -60,7 +60,6 @@ models{m}.initpar = [.5  5  0 .5 .5 .5 .5 .5];
 models{m}.lb      = [ 0  1 -1  0  0  0  0  0];   
 models{m}.ub      = [ 1 100 1  1  1  1  1  1];     
 models{m}.label = "Dynamic \omega (|RPE|)";
-models{m}.behav_flag = 0;
 models{m}.plabels = ["\alpha_{rew}", "\beta_{1}","\beta_0", "\alpha_{unrew}","\zeta","\gamma","\omega_0","\zeta_{\omega}"];
 models{m}.simfunc = 'predictAgentSimulationLocation';
 models{m}.extract_initpar_from = 'RL25_dynamicVchoLinRel_omegaV_comp1';
@@ -73,7 +72,6 @@ models{m}.initpar = [.5  5  0 .5 .5 .5 .5 .1];
 models{m}.lb      = [ 0  1 -1  0  0  0  0  0];   
 models{m}.ub      = [ 1 100 1  1  1  1  1 .5];   
 models{m}.label = "Dynamic \omega (V_{cho})";
-models{m}.behav_flag = 0;
 models{m}.plabels = ["\alpha_{rew}", "\beta_{DV}","\beta_0", "\alpha_{unrew}","\zeta_V","\gamma","\omega_0","\zeta_{\omega}"];
 models{m}.simfunc = 'predictAgentSimulationLocation';
 models{m}.extract_initpar_from = 'RL25_dynamicVchoLinRel_omegaV_comp1';    
@@ -86,7 +84,6 @@ models{m}.initpar = [.5   5  0 .5 .5 .5 .5 .5 .1];
 models{m}.lb      = [ 0   1 -1  0  0  0  0  0  0];   
 models{m}.ub      = [ 1 100  1  1  1  1  1  1 .5];   
 models{m}.label = "Dynamic \omega-\rho (V_{cho}): free \rho";
-models{m}.behav_flag = 0;
 models{m}.plabels = ["\alpha_{(+)}","\beta_{1}","\beta_0", "\alpha_{(-)}","\zeta", "\rho","\alpha_{\omega}","\omega_0","\zeta_{\omega}"];
 models{m}.simfunc = 'predictAgentSimulationLocation';
 models{m}.extract_initpar_from = 'none';
@@ -99,21 +96,9 @@ models{m}.initpar = [.5   5  0 .5 .5 .5 .5 .5];
 models{m}.lb      = [ 0   1 -1  0  0  0  0  0];   
 models{m}.ub      = [ 1 100  1  1  1  1  1  1];   
 models{m}.label = "Dynamic \omega-\rho (V_{cho})";     % (subject-fixed)
-models{m}.behav_flag = 0;
 models{m}.plabels = ["\alpha_{(+)}","\beta_{1}","\beta_0","\alpha_{(-)}","\zeta","\alpha_{\omega}","\omega_0","\zeta_{\omega}"];
 models{m}.simfunc = 'predictAgentSimulationLocation';
 models{m}.extract_initpar_from = 'RL25_dynamicVchoLinRel_omegaDec_comp1';
-
-%% initialize output struct
-
-output = struct;
-for m = 1:length(models)
-    output.(models{m}.name) = struct;
-end
-
-if numel(fieldnames(output))~=numel(models)
-    error('Error in number of output fields');
-end
 
 %% check for errors
 
@@ -122,15 +107,14 @@ Names_set = {};
 
 for m = 1:length(models)
     disp(m+". "+models{m}.name);
-    
-    if ~models{m}.behav_flag
-        if numel(models{m}.initpar)~=numel(models{m}.plabels)
-            error(m+'. Error in number of parameters');
-        end
-        if numel(fieldnames(models{m}))~=numfields
-            error("Check number of fields : Model "+m);
-        end
+
+    if numel(models{m}.initpar)~=numel(models{m}.plabels)
+        error(m+'. Error in number of parameters');
     end
+    if numel(fieldnames(models{m}))~=numfields
+        error("Check number of fields : Model "+m);
+    end
+
     Names_set{m} = models{m}.name;    
     
     ffunc = models{m}.fun;
@@ -188,7 +172,6 @@ for m = 1:length(models)
     simfname = output_dir+"/sim10/"+group_label+"/simLearn_"+models{m}.name+"_rev1_ext.mat";
     if exist(simfname, 'file') && load_sim_output
         load(simfname, 'SimRun','SimMean');
-        output.(models{m}.name) = SimRun;
         models{m}.SimRun = SimRun;
         models{m}.SimMean = SimMean;
         models{m}.sim_exists = 1;
