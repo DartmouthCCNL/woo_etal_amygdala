@@ -24,7 +24,7 @@ for d = 1:numel(datasets)
             lesion_groups = ["control17", "control21", "amygdala", "VS"];  
     end
     % Load RT data
-    fname = "output/behavior/" + dataset_label + "wholeBlock" + "_win10.mat";
+    fname = "output/behavior/" + dataset_label + "_wholeBlock" + "_win10.mat";
     load(fname,'all_output');
     if strcmp(dataset_label,'WhatWhere')
         all_output = rmfield(all_output,{'control17','control21'}); 
