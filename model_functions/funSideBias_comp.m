@@ -1,4 +1,4 @@
-function [negloglike, nlls, V_hist] = funSideBias_comp(xpar,dat)
+function [negloglike, nlls, pl, V_hist, omegaVs] = funSideBias_comp(xpar,dat)
 % % funDQ_RPE % 
 %PURPOSE:   Function for maximum likelihood estimation, called by fit_fun().
 %
@@ -59,10 +59,10 @@ V_hist.DV_right = nan(1,nt); % total DV of right
 V_hist.DV_chosen = nan(1,nt); % total DV of chosen option
 
 % quantities related to arbitration
-V_hist.omegas = omega_static*ones(1,nt);  % static omega values
+omegaVs = omega_static*ones(1,nt);  % static omega values
 
 % decision probs
-V_hist.pLeft = zeros(1,nt);
+pl = zeros(1,nt);
 V_hist.pChosen = nan(1,nt); % predicted model prob. for chosen option 
 
 for k = 1:nt
@@ -87,7 +87,7 @@ for k = 1:nt
     
     % obtain final choice probabilities for Left and Right side
     [pleft, pright] = DecisionRuleSideBias2(SideBias,q_left,q_right,beta1);
-    V_hist.pLeft(k) = pleft;
+    pl(k) = pleft;
     V_hist.DV_left(k) = q_left;
     V_hist.DV_right(k) = q_right;
     
