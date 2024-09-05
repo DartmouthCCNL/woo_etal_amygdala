@@ -11,7 +11,7 @@ function [AvgTraj] = compute_trajectory_by_reward_schedule(fitType, selectMod, g
     else
         disp("Computing omega trajectory by reward schedule...")
     end
-    [models] = initialize_models(datasets{1}, groups_labels(group_idx), 1, 0);
+    [models] = initialize_models(datasets{1}, groups_labels(group_idx(1)), 1, 0);
     
     AvgTraj = struct;
     % loop through each group

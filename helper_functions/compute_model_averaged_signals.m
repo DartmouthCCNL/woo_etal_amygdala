@@ -1,6 +1,17 @@
 %% subfunction: compute averaged signals (Dynamic model only)
-function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, loaded_groups, comparison_groups, M, block_idx, AllBlockStats, overwrite_file)    
+function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, group_idx, M, block_idx, AllBlockStats, overwrite_file)    
     datasets = {'Costa16','WhatWhere'};
+    groups_labels = ["control", "amygdala", "VS"];
+    if nargin<4
+        disp("Loading output...");
+        M = struct;
+        block_idx = struct;
+        AllBlockStats = struct;
+        overwrite_file = 0;
+    else
+        disp("Computing omega trajectory by reward schedule...")
+    end
+
     AvgTraj = struct;
 
     for d = 1:numel(datasets)
@@ -13,15 +24,15 @@ function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, loaded_g
         end
         
         % loop through each group
-        for g = 1:numel(comparison_groups)
-            group_label = loaded_groups(comparison_groups(g));  
+        for g = 1:numel(group_idx)
+            group_label = groups_labels(group_idx(g));  
             disp(upper(group_label));
-            thisModel = M.(dataset_label).(group_label){selectMod};
+
+            % initialize model struct
+            [models] = initialize_models(dataset_label, group_label, 1, 0);
+
+            thisModel = models{selectMod};
             fitfun0 = str2func(thisModel.fun);
-            if contains(fitType,"Session")&&~thisModel.sessionfit_exists
-                disp("Model session fit doesn't exist");
-                continue;
-            end
             
             BetaDVidx = strcmp(thisModel.plabels,"\beta_{1}");
             BetaStim_idx = BetaDVidx;
@@ -41,24 +52,24 @@ function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, loaded_g
             end
 
             %% loop through blocks (block types)
-            all_stats = AllBlockStats.(dataset_label).(group_label);
-            for b = 1:length(all_stats)
-                all_stats{b}.absBlockNum = b;   % assign absolute block number
-            end
-
-            for tt = 1:numel(task_subsets)
+             for tt = 1:numel(task_subsets)
                 if d==1
                     taskType = "whatOnly";                        
                 else
                     taskType = task_subsets(tt);
                 end 
-                sname = "output/model/"+dataset_label+"/trajectory_data/"+group_label+"/"+fitType+"_"+group_label+"_"+M.WhatWhere.(loaded_groups(1)){selectMod}.name+"_"+taskType+".mat";
+                sname = "output/model/"+dataset_label+"/trajectory_data/"+group_label+"/"+fitType+"_"+group_label+"_"+thisModel.name+"_"+taskType+".mat";
                 
                 skipped_cnt = 0;
                 if overwrite_file||~exist(sname,'file')
+                    disp(sname);
                     tic
                     tempAlignedTraj = struct;
-                    
+                    all_stats = AllBlockStats.(dataset_label).(group_label);
+                    for b = 1:length(all_stats)
+                        all_stats{b}.absBlockNum = b;   % assign absolute block number
+                    end
+
                     % select block types
                     if d==1                        
                         blockType = "what";
