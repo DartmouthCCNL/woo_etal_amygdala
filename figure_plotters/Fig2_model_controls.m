@@ -2,20 +2,14 @@
 
 % Load data
 group_idx = 1;  % controls
-
-fitType = "SessionCombined"; 
+fitType = "Session"; 
 selectMod = 7;
-initialize_model_fun = "initialize_models";
 
-[M, block_idx, AllBlockStats] = load_fitted_Params_dist_all_dataset(groups.labels(group_idx), initialize_model_fun);
-[AvgTraj] = compute_model_averaged_signals(fitType, selectMod, groups.labels, group_idx, M, block_idx, AllBlockStats,0);
-
+[OmegaV_traj] = compute_trajectory_by_reward_schedule(fitType, selectMod, group_idx);
 %% Panel D: separate by reward schedule
 
 omega_var = "EffOmegaV";    varLabel = "\Omega (effective \omega)";
 % omega_var = "omegaV";     varLabel = "\omega_V (dynamic)";
-
-[OmegaV_traj] = compute_trajectory_by_reward_schedule(fitType, selectMod, groups.labels, group_idx, M, block_idx, AllBlockStats);
 
 varSet.linstyle = ["-","--",":"];
 schedules.colors = {[0 0 0],ones(1,3)*.35,ones(1,3)*.7};
@@ -54,13 +48,15 @@ for g = group_idx
 end
 
 %% C. Example omegaV trajectory
+load("dataset/preprocessed/demo_stats_control.mat",'block_stats','exampleNum','sess_num');
 StimCols = {[73,179,161]/255,[234,82,138]/255}; 
 
-ModsToPlot = 7;         % fixed omega, dynamic omega (plastic)
+dataset_label = "WhatWhere";
+[M] = initialize_models(dataset_label, "control17", 1, 0);
+
+ModsToPlot = 7;         % dynamic omega (plastic)
 LineStyle_set = {'-'};
 omegaCols = 'k';
-
-fitType = "SessionCombined";
 
 figure(32); clf
 set(gcf,'Units','normalized','Position',[0,0,0.21,0.26], 'Color','w');  % 1-by-1
@@ -69,13 +65,6 @@ ax.Position(1) = 0.18;
 ax.Position(2) = 0.19;
 ax.Position(3) = 0.6;
 ax.Position(4) = 0.73;
-
-group_label = "control";
-dataset_label = "WhatWhere";    exampleNum = 230;
-% dataset_label = "Costa16";      exampleNum = 45; %17;
-
-all_stats = AllBlockStats.(dataset_label).(group_label);   
-block_stats = all_stats{exampleNum};
 
 % specify label
 if block_stats.what
@@ -126,31 +115,29 @@ LL_trials = nan(numel(ModsToPlot),80);
 Omega_set = nan(80,numel(ModsToPlot));
 for m = 1:numel(ModsToPlot)
     mtp = ModsToPlot(m);
-    thisMod = M.(dataset_label).(group_label){mtp};   disp(thisMod.label);
+    thisMod = M{mtp};   disp(thisMod.label);
     fitfun0 = str2func(thisMod.fun);
     % choose fitted params to use
     switch fitType
         case "Block"
             fitpar0 = thisMod.fitpar{exampleNum};
-        case "SessionSeparate"
-            fitpar0 = thisMod.SessionFit.fitpar.(blockType){block_idx.(dataset_label).(group_label).sessionNum(exampleNum)};
-        case "SessionCombined"
+        case "Session"
             if strcmp(dataset_label,'Costa16')
-                fitpar0 = thisMod.SessionFit.fitpar.what{block_idx.(dataset_label).(group_label).sessionNum(exampleNum)};
+                fitpar0 = thisMod.SessionFit.fitpar.what{sess_num};
             else
-                fitpar0 = thisMod.SessionFit.fitpar.Combined{block_idx.(dataset_label).(group_label).sessionNum(exampleNum)};
+                fitpar0 = thisMod.SessionFit.fitpar.Combined{sess_num};
             end
     end
     disp(thisMod.plabels'+": "+num2str(fitpar0',3));
     if contains(thisMod.name,'SubjectFixedRho')
         disp("Effective omega model with fixed rho");
         initVals.Rho = block_stats.SubjectFixed_Rho;    disp(initVals.Rho);
-        [nLL(m), LL_trials(m,:), V_hist] = fitfun0(fitpar0, dat, initVals);
-        omegaVs = V_hist.omegas;
+        [nLL(m), LL_trials(m,:), ~, ~, omegaVs] = fitfun0(fitpar0, dat, initVals);
+        plot(omegaVs,'--k'); hold on; % omega before scaling
         omegaVs = omegaVs.*initVals.Rho./(omegaVs.*initVals.Rho+(1-omegaVs).*(1-initVals.Rho));
     else
         disp("Dynamic omega model");
-        [nLL(m), LL_trials(m,:), ~, ~, omegaVs, ~, ~] = fitfun0(fitpar0, dat);
+        [nLL(m), LL_trials(m,:), ~, ~, omegaVs] = fitfun0(fitpar0, dat);
     end
     Omega_set(:,m) = omegaVs;
     disp("-LL = "+num2str(nLL(m)));
