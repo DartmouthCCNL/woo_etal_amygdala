@@ -3,9 +3,11 @@
 ## Overview
 This repository contians custom MATLAB codes for generating analysis plots for the following manuscript: _Woo et al. (2024) Contribution of amygdala to dynamic model arbitration._
 
-Requires installation of [MATLAB](https://www.mathworks.com/downloads/) 2021b or higher. Some functionality might not work for earlier version. The following codes have been tested in MATLAB version 2021b and 2022b.
+Requires installation of MATLAB 2021b or higher. Some functionality might not work for earlier version. The following codes have been tested in MATLAB version 2021b and 2022b. See [here](https://www.mathworks.com/help/install/install-products.html) for more instuctions on the installation.
 
 ## Directories
+* _**dataset**_: contains dataset
+  * **_preprocessed_**: contains demo data for amygdala-lesioned monkeys.
 * **_figure_plotters_**: contains plotting function for each figure.
 * **_helper_functions_**: contains anlysis helper functions.
 * **_model_functions_**: contains RL model scripts for negative log-likelihood estimation
