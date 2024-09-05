@@ -34,11 +34,11 @@ for d = 1:numel(datasets)
             % 2017 VS control
             data_file_name = data_dir + group_label +"17" + ".mat";
             load(data_file_name,'all_stats'); c17 = all_stats(:);
-            [~, models] = initialize_model_fun(dataset_label, group_label+"17");
+            [models] = initialize_model_fun(dataset_label, group_label+"17");
             % 2021 amyg control
             data_file_name = data_dir + group_label +"21" + ".mat";
             load(data_file_name,'all_stats'); c21 = all_stats(:);
-            [~, models21] = initialize_model_fun(dataset_label, group_label+"21");
+            [models21] = initialize_model_fun(dataset_label, group_label+"21");
             all_stats = [c17; c21]';
             % combine two control group models
             for m = 1:length(models)
@@ -85,7 +85,7 @@ for d = 1:numel(datasets)
             end
             disp(dataset_label+" - "+group_label);
             % load fitted model
-            [~, models] = initialize_model_fun(dataset_label, group_label);
+            [models] = initialize_model_fun(dataset_label, group_label);
         end
 
         %% Set flag if passing fixed param(s) for each subject
