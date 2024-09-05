@@ -80,7 +80,7 @@ function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, loaded_g
                         switch fitType
                             case "Block"
                                 fitpar0 = thisModel.fitpar{block_stats.absBlockNum};
-                            case "SessionCombined"
+                            case "Session"
                                 if d==1
                                     fitpar0 = thisModel.SessionFit.fitpar.(blockType){block_idx.(dataset_label).(group_label).sessionNum(block_stats.absBlockNum)};
                                 else
@@ -90,9 +90,9 @@ function [AvgTraj] = compute_model_averaged_signals(fitType, selectMod, loaded_g
                         dat0 = [block_stats.c, block_stats.r, block_stats.cloc];
                         if contains(thisModel.name,"SubjectFixedRho")
                             initVals.Rho = block_stats.SubjectFixed_Rho;
-                            [~, ~, ~, V_hist, omegaVs, RPE, Rel_diff] = fitfun0(fitpar0, dat0, initVals);
+                            [~, ~, V_hist, omegaVs, RPE, Rel_diff] = fitfun0(fitpar0, dat0, initVals);
                         else
-                            [~, ~, ~, V_hist, omegaVs, RPE, Rel_diff] = fitfun0(fitpar0, dat0);
+                            [~, ~, V_hist, omegaVs, RPE, Rel_diff] = fitfun0(fitpar0, dat0);
                         end
                         
                         % obtain rho for this model
