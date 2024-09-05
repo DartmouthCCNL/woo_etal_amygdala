@@ -20,3 +20,23 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
      
 ## Demo
 To reproduce the main analysis figures, clone the repo and run `all_plots_main.m` in the root directory. This loads the saved output files from the directory.
+
+### Data format
+Information about a given block is contained in the MATLAB structure named `block_stats`, with the following fields:
+* **prob####**: set to `[1; 1]` if the given block has the reward schedule ##/##, and `[0; 0]` otherwise. Indexes acquisiton and reversal phase separately, but note that two are identical within a block.
+* **what**: set to `1` if the given block is a What block, `0` otherwise.
+* **where**: set to `1` if the given block is a Where block, `0` otherwise.
+* **animal_ids**: unique identifier for the monkey that performed the given block.
+* **session_date**: Date when the block was performed.
+* **session_idx**: Indexes sessions with respect to total session number from all monkeys.
+* **r**: array of rewards collected, `1` if rewarded for the trial and `0` if unrewarded.
+* **c**: array of chosen stimulus identity, set to `-1` if stimulus A was chosen and `1` if stimulus B was chosen.
+* **cloc**: array of chosen action location, set to `-1` if leftward and `1` if rightward saccade was made.
+* **block_indices**: cell array containining indices of trials belonging to acquisiton or reversal phase respectively.
+* **block_addresses**: 1-by-3 array containing trial indices for start of the block, reversal trial, and end of the block.
+* **rewardprob**: contains reward schedule across trials for the correct dimension, i.e., for left/right in Where block or A/B for What block.
+* **hr_side**: indicates whether left (-1) or right (1) side was a better rewarding option across trials.
+* **hr_shape**: indicates whether stimulus A (-1) or B (1) was a better rewarding option across trials.
+* **RT**: contains reaction time for each trial.
+* **SubjectFixed_Rho**: indicates estimated rho parameter value for the given animal.
+   
