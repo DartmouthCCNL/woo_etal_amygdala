@@ -26,10 +26,10 @@ To reproduce the main analysis figures, clone the repo and run `all_plots_main.m
 
 ### Entropy metrics
 The entropy of reward-dependent strategy (ERDS) is the entropy of strategy conditioned on previous reward feedback, i.e., H(_strategy_|_reward_). `/helper_functions/Conditional_Entropy.m` is used to compute this quantity. 
-The full package and demo for the entropy-based metrics can be also found at https://github.com/DartmouthCCNL/EntropyMetrics.
+The full package and a short demo for the entropy-based metrics can be also found at https://github.com/DartmouthCCNL/EntropyMetrics.
 
 ### Reinforcement Learning (RL) models
-The directory `/model_functions` contains each RL model script for computing negative log-likelihood estimation (`fun*.m`) and simulation (`algo*.m`). RL models were fitted by each session using maximum likelihood estimation with `fmincon`, using the script `/fitting_functions/fit_models_by_session.m`.
+The directory `/model_functions` contains each RL model script for computing negative log-likelihood (`fun*.m`) and simulation (`algo*.m`). RL models were fitted by each session using maximum likelihood estimation with `fmincon`, using the script `/fitting_functions/fit_models_by_session.m`.
 
 ### Data format
 Information about a given block is contained in the MATLAB structure named `block_stats`, with the following fields:
