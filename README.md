@@ -8,9 +8,10 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
 ## Directories
 * _**dataset**_: contains dataset
   * **_preprocessed_**: contains demo data for control and amygdala-lesioned monkeys.
-* **_figure_plotters_**: contains relevant analysis & plotting function for each figure of the manuscript. 
+* **_figure_plotters_**: contains relevant analysis & plotting function for each figure of the manuscript.
+* **_fitting_functions_**: contains codes for fitting models to the choice data.
 * **_helper_functions_**: contains anlysis helper functions.
-* **_model_functions_**: contains RL model scripts for negative log-likelihood estimation (`fun*.m`) and simulation (`algo*.m`).
+* **_model_functions_**: contains reinforcement learning model scripts.
 * **_output_**: contains output MAT files used from behavioral metrics and model fitting results
   * **_model/Costa16_**: contains output data for What-only task (Costa et al., 2016)
   * **_model/WhatWhere_**: contains output data for What/Where task (Rothenhoefer et al., 2017; Taswell et al., 2021)
@@ -24,8 +25,11 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
 To reproduce the main analysis figures, clone the repo and run `all_plots_main.m` in the root directory. This loads the saved output files from the directory.
 
 ### Entropy metrics
-The entropy of reward-dependent strategy (ERDS) is the entropy of strategy conditioned on previous reward feedback, i.e., H(_strategy_|_reward_). `helper_functions/Conditional_Entropy.m` is be used to compute this quantity. 
+The entropy of reward-dependent strategy (ERDS) is the entropy of strategy conditioned on previous reward feedback, i.e., H(_strategy_|_reward_). `/helper_functions/Conditional_Entropy.m` is used to compute this quantity. 
 The full package and demo for the entropy-based metrics can be also found at https://github.com/DartmouthCCNL/EntropyMetrics.
+
+### Reinforcement Learning (RL) models
+The directory `/model_functions` contains each RL model script for computing negative log-likelihood estimation (`fun*.m`) and simulation (`algo*.m`). RL models were fitted by each session using maximum likelihood estimation with `fmincon`, using the script `/fitting_functions/fit_models_by_session.m`.
 
 ### Data format
 Information about a given block is contained in the MATLAB structure named `block_stats`, with the following fields:
