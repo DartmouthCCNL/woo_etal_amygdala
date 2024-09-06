@@ -8,7 +8,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
 ## Directories
 * _**dataset**_: contains dataset
   * **_preprocessed_**: contains demo data for control and amygdala-lesioned monkeys.
-* **_figure_plotters_**: contains plotting function for each figure of the manuscript.
+* **_figure_plotters_**: contains relevant analysis & plotting function for each figure of the manuscript. 
 * **_helper_functions_**: contains anlysis helper functions.
 * **_model_functions_**: contains RL model scripts for negative log-likelihood estimation
 * **_output_**: contains output MAT files used from behavioral metrics and model fitting results
