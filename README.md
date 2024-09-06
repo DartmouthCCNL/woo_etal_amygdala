@@ -39,5 +39,4 @@ Information about a given block is contained in the MATLAB structure named `bloc
 * **hr_side**: indicates whether left (-1) or right (1) side was a better rewarding option across trials.
 * **hr_shape**: indicates whether stimulus A (-1) or B (1) was a better rewarding option across trials.
 * **RT**: contains reaction time for each trial.
-* **SubjectFixed_Rho**: indicates estimated rho parameter value for the given animal.
    
