@@ -18,7 +18,7 @@ function [AvgTraj] = compute_trajectory_by_reward_schedule(fitType, selectMod, g
     for g = 1:numel(group_idx)
         group_label = groups_labels(group_idx(g));  
         disp(upper(group_label));
-        sname = "output/model/Omega_by_rew/"+fitType+"_"+group_label+"_"+models{selectMod}.name+".mat";
+        sname = "output/model/Combined/Omega_by_rew/"+fitType+"_"+group_label+"_"+models{selectMod}.name+".mat";
 
         if ~exist(sname,'file')  
             betaFlag = "";
