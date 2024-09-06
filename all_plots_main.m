@@ -1,6 +1,5 @@
 % Woo et al., 2024
 % codes for plotting figures
-
 clearvars; close all; clc
 datasets = {'Costa16','WhatWhere'};
 groups.labels = ["control", "amygdala", "VS"]; 
@@ -59,5 +58,24 @@ Fig3_model_lesions;
 Fig4_beta_rho;
 
 %% Fig.5. Complex interaction betweeen learning & arbitraiton
+% To generate the simulated data, run: sim_functions/simulatePhasePlane.m
 
 Fig5_complex_interactions;
+
+%% Supplementary Fig.1. Interactions between stimulus-based and action-based learning
+
+FigS1_paired_ERDS_diff;
+
+%% Supplementary Fig.2. Comparison of reliability signals, V_chosen vs. |RPE|
+
+FigS2_reliability_comparison;
+
+%% Supplementary Fig.4. Simulated ERDS in What-only task
+
+FigS4_simulated_two_ERDS;
+
+%% Supplementary Fig.6. Long-term adjustment
+
+FigS6_long_term_adjust;
+
+
