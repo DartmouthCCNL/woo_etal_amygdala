@@ -11,8 +11,7 @@ comparison_groups = 1:3;
 
 % Select models to load:
 initialize_model_fun = "initialize_models";
-[M, block_idx, AllBlockStats] = load_fitted_Params_dist_all_dataset(groups.labels, initialize_model_fun);
-
+[M, block_idx] = load_fitted_Params_dist_all_dataset(groups.labels, initialize_model_fun);
 
 %% Panel A: fixed value of rho for each monkey
 selectMod = 6;

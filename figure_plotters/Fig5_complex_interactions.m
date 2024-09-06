@@ -32,7 +32,7 @@ for p = 1:length(params_set)
     aUnrew  = params_set{p}(2);
     decayR  = params_set{p}(3);
     updateR  = params_set{p}(4);    
-    dname = Data_dir+"Plastic_N10000_L"+RewEnv.totalL+"_rev"+RewEnv.blockL+"_aP"+aRew+"aN"+aUnrew+"_b"+betaDV+"_d"+decayR+"_g"+updateR+".mat";
+    dname = "output/model/Combined/PhasePlaneData/"+"Plastic_N10000_L"+RewEnv.totalL+"_rev"+RewEnv.blockL+"_aP"+aRew+"aN"+aUnrew+"_b"+betaDV+"_d"+decayR+"_g"+updateR+".mat";
     if ~exist(dname, 'file')
         disp("File doesn't exist: "+dname);
         continue;
@@ -44,6 +44,7 @@ for p = 1:length(params_set)
     if p>=length(params_set)-1
         xlabel("Trials"); 
     end    
+    ax = gca;
     ax.XTick = [0:25:200]; ax.XTickLabelRotation = 0;
     xtlbl = strings(1,length(ax.XTick)); xtlbl(1:2:end) = 0:50:200;
     ax.XTickLabel = xtlbl;
@@ -52,7 +53,7 @@ for p = 1:length(params_set)
     
     title("\alpha_+="+player.params(1)+", \alpha_-="+player.params(4)+", \zeta="+player.params(5)+", \alpha_{\omega}="+player.params(6));
     
-    set(gca,'FontName','Helvetica','FontSize',gca_fontsize,'FontWeight','normal','LineWidth',1,'tickdir','out','Box','off');        
+    set(ax,'FontName','Helvetica','FontSize',gca_fontsize,'FontWeight','normal','LineWidth',1,'tickdir','out','Box','off');        
 end
 
 
