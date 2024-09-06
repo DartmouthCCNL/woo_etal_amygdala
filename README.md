@@ -10,7 +10,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
   * **_preprocessed_**: contains demo data for control and amygdala-lesioned monkeys.
 * **_figure_plotters_**: contains relevant analysis & plotting function for each figure of the manuscript. 
 * **_helper_functions_**: contains anlysis helper functions.
-* **_model_functions_**: contains RL model scripts for negative log-likelihood estimation
+* **_model_functions_**: contains RL model scripts for negative log-likelihood estimation (`fun*.m`) and simulation (`algo*.m`).
 * **_output_**: contains output MAT files used from behavioral metrics and model fitting results
   * **_model/Costa16_**: contains output data for What-only task (Costa et al., 2016)
   * **_model/WhatWhere_**: contains output data for What/Where task (Rothenhoefer et al., 2017; Taswell et al., 2021)
