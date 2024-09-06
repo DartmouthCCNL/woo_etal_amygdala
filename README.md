@@ -8,7 +8,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
 ## Directories
 * _**dataset**_: contains dataset
   * **_preprocessed_**: contains demo data for control and amygdala-lesioned monkeys.
-* **_figure_plotters_**: contains plotting function for each figure.
+* **_figure_plotters_**: contains plotting function for each figure of the manuscript.
 * **_helper_functions_**: contains anlysis helper functions.
 * **_model_functions_**: contains RL model scripts for negative log-likelihood estimation
 * **_output_**: contains output MAT files used from behavioral metrics and model fitting results
@@ -17,6 +17,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
     * /sessionfit: contains fitted data to each session, such as fitted parameters and log-likelihood info
     * /subjectfit: contains model estimates at the subject-level, used to estimate the rho parameter that measures overall ratio of sensitivity to stimulus-based and action-based learning signals
     * /trajectory_data: contains trajectories of various model-estimates, including effective arbitration weight (\Omega), effective arbitration rates (\psi+ and \psi-)
+  * **_model/Combined_**: output data with information from all two tasks combined, used for plotting figures.
      
 ## Demo
 To reproduce the main analysis figures, clone the repo and run `all_plots_main.m` in the root directory. This loads the saved output files from the directory.
