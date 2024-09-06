@@ -15,9 +15,9 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
 * **_output_**: contains output MAT files used from behavioral metrics and model fitting results
   * **_model/Costa16_**: contains output data for What-only task (Costa et al., 2016)
   * **_model/WhatWhere_**: contains output data for What/Where task (Rothenhoefer et al., 2017; Taswell et al., 2021)
-    * /sessionfit: contains fitted data to each session, such as fitted parameters and log-likelihood info
-    * /subjectfit: contains model estimates at the subject-level, used to estimate the rho parameter that measures overall ratio of sensitivity to stimulus-based and action-based learning signals
-    * /trajectory_data: contains trajectories of various model-estimates, including effective arbitration weight (\Omega), effective arbitration rates (\psi+ and \psi-)
+    * **/sessionfit**: contains fitted data to each session, such as fitted parameters and log-likelihood info
+    * **/subjectfit**: contains model estimates at the subject-level, used to estimate the rho parameter that measures overall ratio of sensitivity to stimulus-based and action-based learning signals
+    * **/trajectory_data**: contains trajectories of various model-estimates, including effective arbitration weight (\Omega), effective arbitration rates (\psi+ and \psi-)
   * **_model/Combined_**: output data with information from all two tasks combined, used for plotting figures.
 * **_sim_functions_**: contain codes for model simulations.
      
