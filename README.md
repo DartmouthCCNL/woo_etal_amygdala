@@ -18,7 +18,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
     * /subjectfit: contains model estimates at the subject-level, used to estimate the rho parameter that measures overall ratio of sensitivity to stimulus-based and action-based learning signals
     * /trajectory_data: contains trajectories of various model-estimates, including effective arbitration weight (\Omega), effective arbitration rates (\psi+ and \psi-)
   * **_model/Combined_**: output data with information from all two tasks combined, used for plotting figures.
-* **sim_functions**__: contain codes for model simulations.
+* **_sim_functions_**: contain codes for model simulations.
      
 ## Demo
 To reproduce the main analysis figures, clone the repo and run `all_plots_main.m` in the root directory. This loads the saved output files from the directory.
