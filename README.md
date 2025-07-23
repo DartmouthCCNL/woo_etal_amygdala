@@ -23,7 +23,7 @@ Requires installation of MATLAB 2021b or higher. Some functionality might not wo
      
 ## Demo
 To reproduce the main analysis figures, clone the repo and run `all_plots_main.m` in the root directory. This loads the saved output files from the directory.
-To reproduce the statistics reported in Supplementary Table 3, run `Reproduce_mixed_stats.m` in the root directory.
+To reproduce the results of mixed-effects models reported in Supplementary Table 3, run `Reproduce_mixed_stats.m` in the root directory.
 
 ### Entropy metrics
 The entropy of reward-dependent strategy (ERDS) is the entropy of strategy conditioned on previous reward feedback, i.e., H(_strategy_|_reward_). `/helper_functions/Conditional_Entropy.m` is used to compute this quantity. 
