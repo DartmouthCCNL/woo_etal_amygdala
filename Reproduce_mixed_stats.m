@@ -3,7 +3,7 @@
 clearvars; clc;
 
 % load block-wise (or session-wise more model params) data table
-load("dataset/preprocessed/Regression_BlockData.mat",'BlockData');
+load("dataset/Regression_BlockData.mat",'BlockData');
 
 % obtain session-wise data (which are repeated for blocks in a given session)
 SessionData = BlockData(BlockData.block_in_sess_ID==1,:);
