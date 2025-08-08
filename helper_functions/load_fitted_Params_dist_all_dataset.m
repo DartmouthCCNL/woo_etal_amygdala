@@ -1,5 +1,5 @@
 %% subfunction: load models
-function [M, block_idx, AllStats] = load_fitted_Params_dist_all_dataset(loaded_groups, initialize_model_fun, datasets, pass_rho_vals)
+function [M, block_idx] = load_fitted_Params_dist_all_dataset(loaded_groups, initialize_model_fun, datasets, pass_rho_vals)
     if ~exist('datasets','var')
         datasets = {'Costa16','WhatWhere'};
     end
@@ -9,7 +9,6 @@ function [M, block_idx, AllStats] = load_fitted_Params_dist_all_dataset(loaded_g
     initialize_model_fun = str2func(initialize_model_fun);
     M = struct; 
     block_idx = struct;
-    AllStats = struct;
 
     % load model information
     fname = "output/model/Combined/Model_struct.mat";
@@ -173,7 +172,6 @@ function [M, block_idx, AllStats] = load_fitted_Params_dist_all_dataset(loaded_g
             end
            
             M.(dataset_label).(group_label) = models;
-            AllStats.(dataset_label).(group_label) = all_stats;
         end
     end
 end
