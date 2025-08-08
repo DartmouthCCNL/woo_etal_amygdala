@@ -1,6 +1,7 @@
-% Woo et al., 2024
+% Woo et al., 2025
 % codes for plotting figures
 clearvars; close all; clc
+addpath(genpath(pwd));
 datasets = {'Costa16','WhatWhere'};
 groups.labels = ["control", "amygdala", "VS"]; 
 
@@ -39,8 +40,8 @@ for d = 1:numel(datasets)
     end
 end
 
+sem = @(x,DIM)std(x,0,DIM)./sqrt(sum(~isnan(x),DIM));
 gca_fontsize = 16;
-
 %% Fig.1. Learning curves of all groups
 
 Fig1_pbetter_runavg;
@@ -62,20 +63,24 @@ Fig4_beta_rho;
 
 Fig5_complex_interactions;
 
-%% Supplementary Fig.1. Interactions between stimulus-based and action-based learning
+%% Supplementary figures
 
-FigS1_paired_ERDS_diff;
+% Fig.S2. Distributions of conditional entropy of reward-dependent strategy (ERDS)
+FigS2_ERDS_dist;
 
-%% Supplementary Fig.2. Comparison of reliability signals, V_chosen vs. |RPE|
+% Fig.S3. Interactions between stimulus-based and action-based learning
+FigS3_paired_ERDS_diff;
 
-FigS2_reliability_comparison;
+% Fig.S4. Comparison of reliability signals, V_chosen vs. |RPE|
+FigS4_reliability_comparison;
 
-%% Supplementary Fig.4. Simulated ERDS in What-only task
+% Fig.S6. Simulated ERDS in What-only task
+FigS6_simulated_two_ERDS;
 
-FigS4_simulated_two_ERDS;
+% Fig.S7. Model validation for lesion groups
+FigS7_model_validation;
 
-%% Supplementary Fig.6. Long-term adjustment
-
-FigS6_long_term_adjust;
+% Fig.S8. Long-term adjustment
+FigS8_long_term_adjust;
 
 
