@@ -83,4 +83,6 @@ FigS7_model_validation;
 % Fig.S8. Long-term adjustment
 FigS8_long_term_adjust;
 
+% Fig.S9-10. Comparison of fitted parameters across groups
+FigS9_S10_params_comparison;
 
