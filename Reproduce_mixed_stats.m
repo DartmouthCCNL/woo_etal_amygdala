@@ -30,16 +30,16 @@ mdl = fitlme(D, mod_Eq);
 disp(mdl); 
 
 % contrast: amyg - VS
-cont_opt = 4;
+cont_opt = 3;
 switch cont_opt
     case 1  
         C = [0 1 -1 0 0 0];  % amyg - VS during What
     case 2
         C = [0 1 -1 0 1 -1]; % amyg - VS during Where    
     case 3
-        C = [0 0 -1 0 -1 0]; % Cont - amyg during Where
+        C = [0 1 0 0 1 0]; % amyg - Cont during Where
     case 4
-        C = [0 0 -1 0 0 -1]; % Cont - VS during Where
+        C = [0 0 1 0 0 1]; % VS - Cont during Where
 end
 stats = run_contrast(mdl, C);
 disp("Contrast: b = "+stats.b+", SE = "+stats.SE+", t("+stats.DF+") = "+stats.tstat+", p = "+stats.pval);
@@ -107,12 +107,13 @@ disp("Lesion contrast: b = "+stats.b+", SE = "+stats.SE+", t("+stats.DF+") = "+s
 
 %% Table 3.6 Comparison of relative sensitivity to stimulus and action value signals (Δ𝛽 = 𝛽stim – 𝛽action) bewteen groups during What-only task
 D = SessionData(SessionData.task=="Costa16",:); % What-only task data
+D.deltaBeta = D.Beta_Stim - D.Beta_Act;
 
-mod_Eq = "deltaBeta ~ group + (1 + sess_perc + numBlock_in_sess|subject)";
+mod_Eq = "deltaBeta ~ group + (1 + sess_perc|subject)";
 mdl = fitlme(D, mod_Eq); 
 disp(mdl); 
 
-cont_opt = 3;
+cont_opt = 1;
 switch cont_opt
     case 1
         C = [0 1 -1]; % amyg - VS
@@ -132,7 +133,7 @@ mod_Eq = "deltaBeta ~ group + (1 + sess_perc |subject)";
 mdl = fitlme(D, mod_Eq); 
 disp(mdl); 
 
-cont_opt = 3;
+cont_opt = 1;
 switch cont_opt
     case 1
         C = [0 1 -1]; % amyg - VS
@@ -148,7 +149,7 @@ disp("Contrast b = "+stats.b+", SE = "+stats.SE+", t("+stats.DF+") = "+stats.tst
 D = SessionData(SessionData.task=="WhatWhere",:);
 D.deltaOm = D.Omega_0 - D.omega_0;
 
-y_opt = 9;
+y_opt = 8;
 switch y_opt
     case 8       % initial effective arbitration weight
         mod_Eq = "Omega_0 ~ group + (1+sess_perc|subject)";          
@@ -168,7 +169,7 @@ disp("Amyg - VS contrast: b = "+stats.b+", SE = "+stats.SE+", t("+stats.DF+") = 
 %% Table 3.11-14 Long-term adjustment during What-only task
 D = BlockData(BlockData.task=="Costa16",:);    % all What-only data
 
-y_opt = 1;
+y_opt = 4;
 
 switch y_opt
     case 1       
