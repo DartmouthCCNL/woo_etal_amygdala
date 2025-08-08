@@ -7,7 +7,7 @@ schedule_label = "stochastic";
 
 selectModNum = 7;
 initialize_model_fun = "initialize_models";
-[M, block_idx, AllBlockStats] = load_fitted_Params_dist_all_dataset(groups.labels, initialize_model_fun);
+[M, block_idx] = load_fitted_Params_dist_all_dataset(groups.labels, initialize_model_fun);
 
 wholeBlockOutput = assign_initial_arb_weight(M, groups, selectModNum, block_idx, wholeBlockOutput);
 

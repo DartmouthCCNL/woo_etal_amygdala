@@ -12,8 +12,7 @@ params_set = {[0.1, 0.3, 0.5, 0.1], [0.7, 0.1, 0.01, 0.1], ...
               [0.3, 0.1, 0.7, 0.2], [0.5, 0.4, 0.1, 0.3]};
 
 %% Plot panels
-
-figure(7);  clf;
+figure(5);  clf;
 set(gcf,'Color','w','Units','normalized','Position',[0.0, 0.0, 0.45, 0.7]);
 
 for p = 1:length(params_set)
