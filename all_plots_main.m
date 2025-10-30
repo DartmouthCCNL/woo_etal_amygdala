@@ -3,8 +3,9 @@
 clearvars; close all; clc
 addpath(genpath(pwd));
 datasets = {'Costa16','WhatWhere'};
-groups.labels = ["control", "amygdala", "VS"]; 
 
+groups = struct;
+groups.labels = ["control", "amygdala", "VS"]; 
 groups.colors = {[0 0 0],[1 0 0],[0,.3,1]};
 groups.colors2 = {[0.35,0.35,0.35],[1,.25,0],[0,0,0.8]};
 groups.colors3 = {[0.7,0.7,0.7],[1,.5,0],[0,0,0.6]};    
@@ -12,7 +13,7 @@ groups.colors3 = {[0.7,0.7,0.7],[1,.5,0],[0,0,0.6]};
 schedules.subsets = ["prob8020","prob7030","prob6040"];
 schedules.labels = ["80/20","70/30","60/40"];
 
-% load processed_data
+% load data
 wholeBlockOutput = struct;
 totBlockNum = 0;
 for d = 1:numel(datasets)
@@ -24,7 +25,7 @@ for d = 1:numel(datasets)
             lesion_groups = ["control17", "control21", "amygdala", "VS"];  
     end
     % Load RT data
-    fname = "output/behavior/" + dataset_label + "_wholeBlock" + "_win10.mat";
+    fname = "dataset/" + dataset_label + "_all_data.mat";
     load(fname,'all_output');
     if strcmp(dataset_label,'WhatWhere')
         all_output = rmfield(all_output,{'control17','control21'}); 
@@ -63,26 +64,32 @@ Fig4_beta_rho;
 
 Fig5_complex_interactions;
 
+%% Fig. 2b, 3a: Cross-validation results
+
+Fig2b_3a_CV;
+
 %% Supplementary figures
 
-% Fig.S2. Distributions of conditional entropy of reward-dependent strategy (ERDS)
-FigS2_ERDS_dist;
+% Fig.S1. Distributions of conditional entropy of reward-dependent strategy (ERDS)
+FigS1_ERDS_dist;
 
-% Fig.S3. Interactions between stimulus-based and action-based learning
-FigS3_paired_ERDS_diff;
+% Fig.S2. Interactions between stimulus-based and action-based learning
+FigS2_paired_ERDS_diff;
 
-% Fig.S4. Comparison of reliability signals, V_chosen vs. |RPE|
-FigS4_reliability_comparison;
+% Fig.S3. Comparison of reliability signals, V_chosen vs. |RPE|
+FigS3_reliability_comparison;
 
-% Fig.S6. Simulated ERDS in What-only task
-FigS6_simulated_two_ERDS;
+% Fig.S5. Simulated ERDS in What-only task
+FigS5_simulated_two_ERDS;
 
-% Fig.S7. Model validation for lesion groups
-FigS7_model_validation;
+% Fig.S6. Model validation for lesion groups
+FigS6_model_validation;
 
-% Fig.S8. Long-term adjustment
-FigS8_long_term_adjust;
+% Fig.S7. Long-term adjustment
+FigS7_long_term_adjust;
 
-% Fig.S9-10. Comparison of fitted parameters across groups
-FigS9_S10_params_comparison;
+% Fig.S8-S9. Comparison of fitted parameters across groups
+FigS8_S9_params_comparison;
 
+% Fig.S10. Mean AIC of session
+FigS10_AIC;
