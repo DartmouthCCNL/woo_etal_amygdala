@@ -11,9 +11,14 @@ function [M, block_idx] = load_fitted_Params_dist_all_dataset(loaded_groups, ini
     block_idx = struct;
 
     % load model information
-    fname = "output/model/Combined/Model_struct.mat";
-    if exist(fname,'file')
-        load(fname,"M","block_idx");
+    fname1 = "output/model/Costa16/Model_struct_Costa16.mat";
+    fname2 = "output/model/WhatWhere/Model_struct_WhatWhere.mat";
+    if exist(fname1,'file')&&exist(fname2,'file')
+        Dat1 = load(fname1,"M","block_idx");
+        Dat2 = load(fname2,"M","block_idx");
+        M.Costa16   = Dat1.M;   block_idx.Costa16   = Dat1.block_idx;
+        M.WhatWhere = Dat2.M;   block_idx.WhatWhere = Dat2.block_idx;
+        disp("Model fit loaded.");
         return;
     end
 
@@ -32,7 +37,6 @@ function [M, block_idx] = load_fitted_Params_dist_all_dataset(loaded_groups, ini
                 data_dir = "dataset/preprocessed/WW_stats_";
         end
         %% 0. load and compile results
-        
         for g = 1:length(loaded_groups)
             disp(loaded_groups(g));
             % Load processed_data & model fits
@@ -49,15 +53,6 @@ function [M, block_idx] = load_fitted_Params_dist_all_dataset(loaded_groups, ini
                 all_stats = [c17; c21]';
                 % combine two control group models
                 for m = 1:length(models)
-                    if ~models21{m}.fit_exists||~models{m}.fit_exists 
-                        disp(m+". No block fit data"); 
-                    else
-                        models{m}.fitpar = [models{m}.fitpar; models21{m}.fitpar];
-                        models{m}.ll = [models{m}.ll; models21{m}.ll];
-                        models{m}.aic = [models{m}.aic; models21{m}.aic];
-                        models{m}.bic = [models{m}.bic; models21{m}.bic];
-                        models{m}.nlike = [models{m}.nlike; models21{m}.nlike];
-                    end
                     if ~models21{m}.sessionfit_exists||~models{m}.sessionfit_exists
                         disp(m+". No session fit data"); 
                     else
@@ -174,4 +169,5 @@ function [M, block_idx] = load_fitted_Params_dist_all_dataset(loaded_groups, ini
             M.(dataset_label).(group_label) = models;
         end
     end
+    disp("Model fit loaded.");
 end
